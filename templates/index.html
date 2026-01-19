@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Football Tactics</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h2>⚽ AI Football Tactics Recommender</h2>
+
+    <form action="/predict" method="post">
+
+        <label>Opponent Formation</label>
+        <select name="opponent_formation" required>
+            <option>4-3-3</option>
+            <option>4-4-2</option>
+            <option>3-4-3</option>
+            <option>5-4-1</option>
+            <option>4-2-3-1</option>
+        </select>
+
+        <label>Possession (%)</label>
+        <input type="number" name="opponent_possession" min="30" max="80" required>
+
+        <label>Pass Accuracy (%)</label>
+        <input type="number" name="pass_accuracy" min="60" max="95" required>
+
+        <label>Shots on Target</label>
+        <input type="number" name="shots_on_target" min="1" max="15" required>
+
+        <label>Pressing Style</label>
+        <select name="pressing_style" required>
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+        </select>
+
+        <button type="submit">🔍 Generate Tactics</button>
+    </form>
+
+    {% if prediction %}
+<div class="result">
+    <h3>Recommended Formation</h3>
+    <h2>{{ prediction }}</h2>
+
+    <h4>Why this tactic?</h4>
+    <p>{{ explanation }}</p>
+</div>
+{% endif %}
+
+</div>
+
+</body>
+</html>
