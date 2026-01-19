@@ -1,55 +1,116 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>AI Football Tactics</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Football Tactics | Elite Edition</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
 
-<div class="container">
-    <h2>⚽ AI Football Tactics Recommender</h2>
+    <div class="background-glow"></div>
 
-    <form action="/predict" method="post">
+    <div class="main-container">
+        <header>
+            <h1>AI TACTICAL <span class="highlight">GHOST</span></h1>
+            <p>Analyze. Adapt. Dominate.</p>
+        </header>
 
-        <label>Opponent Formation</label>
-        <select name="opponent_formation" required>
-            <option>4-3-3</option>
-            <option>4-4-2</option>
-            <option>3-4-3</option>
-            <option>5-4-1</option>
-            <option>4-2-3-1</option>
-        </select>
+        <form id="tacticForm" class="glass-panel">
 
-        <label>Possession (%)</label>
-        <input type="number" name="opponent_possession" min="30" max="80" required>
+            <!-- Visual Formation Selection -->
+            <div class="section">
+                <h3>1. Select Opponent Formation</h3>
+                <div class="formation-grid">
+                    <!-- Formations will be selectable items -->
+                    <label class="formation-card">
+                        <input type="radio" name="opponent_formation" value="4-3-3" checked>
+                        <img src="{{ url_for('static', filename='images/4-3-3.png') }}" alt="4-3-3">
+                        <span>4-3-3</span>
+                    </label>
+                    <label class="formation-card">
+                        <input type="radio" name="opponent_formation" value="4-4-2">
+                        <img src="{{ url_for('static', filename='images/4-4-2.png') }}" alt="4-4-2">
+                        <span>4-4-2</span>
+                    </label>
+                    <label class="formation-card">
+                        <input type="radio" name="opponent_formation" value="3-4-3">
+                        <img src="{{ url_for('static', filename='images/3-4-3.png') }}" alt="3-4-3">
+                        <span>3-4-3</span>
+                    </label>
+                    <label class="formation-card">
+                        <input type="radio" name="opponent_formation" value="5-4-1">
+                        <img src="{{ url_for('static', filename='images/5-4-1.png') }}" alt="5-4-1">
+                        <span>5-4-1</span>
+                    </label>
+                    <label class="formation-card">
+                        <input type="radio" name="opponent_formation" value="4-2-3-1">
+                        <img src="{{ url_for('static', filename='images/4-2-3-1.png') }}" alt="4-2-3-1">
+                        <span>4-2-3-1</span>
+                    </label>
+                    <label class="formation-card">
+                        <input type="radio" name="opponent_formation" value="3-5-2">
+                        <img src="{{ url_for('static', filename='images/3-5-2.png') }}" alt="3-5-2">
+                        <span>3-5-2</span>
+                    </label>
+                </div>
+            </div>
 
-        <label>Pass Accuracy (%)</label>
-        <input type="number" name="pass_accuracy" min="60" max="95" required>
+            <!-- Sliders for Stats -->
+            <div class="section stats-grid">
+                <div class="input-group">
+                    <label>Possession: <span id="possession-val">60</span>%</label>
+                    <input type="range" name="opponent_possession" min="30" max="80" value="60"
+                        oninput="document.getElementById('possession-val').innerText = this.value">
+                </div>
 
-        <label>Shots on Target</label>
-        <input type="number" name="shots_on_target" min="1" max="15" required>
+                <div class="input-group">
+                    <label>Pass Accuracy: <span id="pass-val">85</span>%</label>
+                    <input type="range" name="pass_accuracy" min="60" max="95" value="85"
+                        oninput="document.getElementById('pass-val').innerText = this.value">
+                </div>
 
-        <label>Pressing Style</label>
-        <select name="pressing_style" required>
-            <option>Low</option>
-            <option>Medium</option>
-            <option>High</option>
-        </select>
+                <div class="input-group">
+                    <label>Shots on Target: <span id="shots-val">5</span></label>
+                    <input type="range" name="shots_on_target" min="1" max="15" value="5"
+                        oninput="document.getElementById('shots-val').innerText = this.value">
+                </div>
 
-        <button type="submit">🔍 Generate Tactics</button>
-    </form>
+                <div class="input-group">
+                    <label>Pressing Style</label>
+                    <select name="pressing_style">
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High" selected>High</option>
+                    </select>
+                </div>
+            </div>
 
-    {% if prediction %}
-<div class="result">
-    <h3>Recommended Formation</h3>
-    <h2>{{ prediction }}</h2>
+            <button type="submit" class="cta-button">ANALYZE OPPONENT</button>
+        </form>
 
-    <h4>Why this tactic?</h4>
-    <p>{{ explanation }}</p>
-</div>
-{% endif %}
+        <!-- Result Section -->
+        <div id="result-section" class="glass-panel result-panel collapsed">
+            <div class="result-content">
+                <div class="result-text">
+                    <h3>RECOMMENDED COUNTER</h3>
+                    <h2 id="result-formation" class="neon-text"></h2>
+                    <p id="result-explanation"></p>
+                </div>
+                <div class="result-visual">
+                    <img id="result-image" src="" alt="Tactical Board">
+                </div>
+            </div>
+        </div>
 
-</div>
+    </div>
 
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
+
 </html>

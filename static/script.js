@@ -1,0 +1,69 @@
+document.getElementById('tacticForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const form = this;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn.innerText;
+
+    // Loading State
+    submitBtn.innerText = "ANALYZING...";
+    submitBtn.disabled = true;
+
+    const formData = new FormData(this);
+    const resultSection = document.getElementById('result-section');
+    const resultFormation = document.getElementById('result-formation');
+    const resultExplanation = document.getElementById('result-explanation');
+    const resultImage = document.getElementById('result-image');
+
+    // Reset result view
+    resultSection.classList.add('collapsed');
+
+    try {
+        const response = await fetch('/predict', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Update Content
+            resultFormation.textContent = data.recommended_formation;
+            resultExplanation.textContent = data.tactical_explanation;
+            resultImage.src = data.visual_assets.formation_image;
+
+            // Wait for image to load before showing
+            resultImage.onload = () => {
+                resultSection.classList.remove('collapsed');
+                resultSection.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            };
+
+            // Fallback
+            if (resultImage.complete) {
+                resultSection.classList.remove('collapsed');
+                resultSection.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            }
+
+        } else {
+            alert("Error: " + (data.error || "Unknown error occurred"));
+        }
+    } catch (err) {
+        console.error('Error:', err);
+        alert("Failed to connect to server.");
+    } finally {
+        submitBtn.innerText = originalBtnText;
+        submitBtn.disabled = false;
+    }
+});
+
+// Interactive Card Selection (Optional enhancement to standard radio behavior)
+document.querySelectorAll('.formation-card input').forEach(input => {
+    input.addEventListener('change', function () {
+        document.querySelectorAll('.formation-card').forEach(card => card.classList.remove('active'));
+        if (this.checked) {
+            this.parentElement.classList.add('active');
+        }
+    });
+});
+// Initialize active state
+document.querySelector('.formation-card input:checked').parentElement.classList.add('active');
