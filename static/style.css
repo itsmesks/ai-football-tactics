@@ -275,3 +275,21 @@ select {
         text-align: center;
     }
 }
+
+/* Player Content */
+.player-content {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid var(--glass-border);
+}
+
+.neon-text-pink {
+    font-size: 3rem;
+    color: var(--accent-color);
+    text-shadow: 0 0 20px rgba(255, 0, 85, 0.5);
+    margin-bottom: 20px;
+}

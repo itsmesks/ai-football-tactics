@@ -55,12 +55,17 @@ def predict():
         # Construct the "Production-Quality" response
         formation_slug = result["recommended_formation"]
         image_url = url_for('static', filename=f'images/{formation_slug}.png')
+        
+        player_slug = result["key_player_archetype"]["name"]
+        player_image_url = url_for('static', filename=f'images/players/{player_slug}.png')
 
         response_payload = {
             "recommended_formation": result["recommended_formation"],
             "tactical_explanation": result["tactical_explanation"],
+            "key_player": result["key_player_archetype"],
             "visual_assets": {
-                "formation_image": image_url
+                "formation_image": image_url,
+                "player_image": player_image_url
             }
         }
 

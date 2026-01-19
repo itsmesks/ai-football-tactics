@@ -15,6 +15,10 @@ document.getElementById('tacticForm').addEventListener('submit', async function 
     const resultExplanation = document.getElementById('result-explanation');
     const resultImage = document.getElementById('result-image');
 
+    const resultPlayerName = document.getElementById('player-name');
+    const resultPlayerDesc = document.getElementById('player-desc');
+    const resultPlayerImage = document.getElementById('player-image');
+
     // Reset result view
     resultSection.classList.add('collapsed');
 
@@ -31,6 +35,11 @@ document.getElementById('tacticForm').addEventListener('submit', async function 
             resultFormation.textContent = data.recommended_formation;
             resultExplanation.textContent = data.tactical_explanation;
             resultImage.src = data.visual_assets.formation_image;
+
+            // Player data
+            resultPlayerName.textContent = data.key_player.name.toUpperCase();
+            resultPlayerDesc.textContent = data.key_player.description;
+            resultPlayerImage.src = data.visual_assets.player_image;
 
             // Wait for image to load before showing
             resultImage.onload = () => {

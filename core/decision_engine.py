@@ -128,10 +128,32 @@ class TacticalEngine:
             recommended_formation = "4-2-3-1"
             explanation.append("Selected as a balanced starting point to assess opponent weaknesses.")
 
+        # Player Archetype Logic
+        # Select a "Key Player Style" based on the tactical context
+        key_player = "neymar" # default
+        player_desc = "Creative genius needed to break down structured defenses."
+
+        if possession > 60:
+            # High possession match -> Need a playmaker/controller
+            key_player = "messi"
+            player_desc = "Orchestrator needed to control tempo and exploit small spaces."
+        elif possession < 45 or pressing == "High":
+             # Counter attack or break press -> Need power and directness
+             key_player = "ronaldo"
+             player_desc = "Clinical finisher needed for fast transitions and counter-attacks."
+        else:
+            # Balanced/Chaos -> Need flair
+            key_player = "neymar"
+            player_desc = "Creative playmaker needed to unlock defense with individual brilliance."
+
         # Normalize outputs to fit "Production" JSON standard
         full_explanation = " ".join(explanation)
         
         return {
             "recommended_formation": recommended_formation,
-            "tactical_explanation": full_explanation
+            "tactical_explanation": full_explanation,
+            "key_player_archetype": {
+                "name": key_player,
+                "description": player_desc
+            }
         }
