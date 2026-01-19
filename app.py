@@ -62,6 +62,7 @@ def predict():
         response_payload = {
             "recommended_formation": result["recommended_formation"],
             "tactical_explanation": result["tactical_explanation"],
+            "detailed_tactics": result["tactics"],
             "key_player": result["key_player_archetype"],
             "visual_assets": {
                 "formation_image": image_url,

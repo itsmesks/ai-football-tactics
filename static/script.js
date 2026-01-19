@@ -36,6 +36,12 @@ document.getElementById('tacticForm').addEventListener('submit', async function 
             resultExplanation.textContent = data.tactical_explanation;
             resultImage.src = data.visual_assets.formation_image;
 
+            // Detailed Tactics
+            document.getElementById('tactic-attack').textContent = data.detailed_tactics.attacking_style;
+            document.getElementById('tactic-defense').textContent = data.detailed_tactics.defensive_style;
+            document.getElementById('tactic-tempo').textContent = data.detailed_tactics.tempo;
+            document.getElementById('tactic-instruction').textContent = data.detailed_tactics.key_instruction;
+
             // Player data
             resultPlayerName.textContent = data.key_player.name.toUpperCase();
             resultPlayerDesc.textContent = data.key_player.description;

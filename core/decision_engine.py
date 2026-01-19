@@ -128,7 +128,44 @@ class TacticalEngine:
             recommended_formation = "4-2-3-1"
             explanation.append("Selected as a balanced starting point to assess opponent weaknesses.")
 
-        # Player Archetype Logic
+        # Extended Tactical Directives
+        # Determine specific instructions based on game state
+        
+        # 1. Attacking Style
+        attack_style = "Balanced"
+        if possession > 60:
+            attack_style = "Counter Attack" # If they have ball, we counter
+        elif possession < 40:
+            attack_style = "Possession Control" # If we have ball (opponent low poss), we keep it
+        elif "4-4-2" in formation or "4-3-1-2" in formation:
+             attack_style = "Wing Play" # Stretch them
+        
+        # 2. Defensive Style
+        defense_style = "Mid Block"
+        shots = int(input_data.get("shots_on_target", 5))
+        if shots > 8:
+            defense_style = "Low Block" # They are dangerous, sit back
+        elif pressing == "High":
+            defense_style = "High Press" # Fight fire with fire or breaking lines? Let's say High Press to disrupt
+        
+        # 3. Tempo
+        tempo = "Standard"
+        pass_acc = int(input_data.get("pass_accuracy", 80))
+        if pass_acc > 88:
+             tempo = "Slow & Patient" # They pass well, we must be patient
+        elif attack_style == "Counter Attack":
+             tempo = "Fast / Direct"
+
+        # 4. Key Instruction
+        key_instruction = "Maintain formation discipline."
+        if attack_style == "Wing Play":
+            key_instruction = "Overload the flanks and cross early."
+        elif defense_style == "Low Block":
+            key_instruction = "Stay compact and force shots from distance."
+        elif pressing == "High":
+            key_instruction = "Bypass midfield with long balls to strikers."
+
+         # Player Archetype Logic (Existing)
         # Select a "Key Player Style" based on the tactical context
         key_player = "neymar" # default
         player_desc = "Creative genius needed to break down structured defenses."
@@ -152,6 +189,12 @@ class TacticalEngine:
         return {
             "recommended_formation": recommended_formation,
             "tactical_explanation": full_explanation,
+            "tactics": {
+                "attacking_style": attack_style,
+                "defensive_style": defense_style,
+                "tempo": tempo,
+                "key_instruction": key_instruction
+            },
             "key_player_archetype": {
                 "name": key_player,
                 "description": player_desc
