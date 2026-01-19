@@ -3,10 +3,10 @@ document.getElementById('tacticForm').addEventListener('submit', async function 
 
     const form = this;
     const submitBtn = form.querySelector('button[type="submit"]');
-    const originalBtnText = submitBtn.innerText;
+    const loadingOverlay = document.getElementById('loading-overlay');
 
-    // Loading State
-    submitBtn.innerText = "ANALYZING...";
+    // Show Loading Overlay and reset button text
+    loadingOverlay.style.display = 'flex';
     submitBtn.disabled = true;
 
     const formData = new FormData(this);
@@ -66,7 +66,7 @@ document.getElementById('tacticForm').addEventListener('submit', async function 
         console.error('Error:', err);
         alert("Failed to connect to server.");
     } finally {
-        submitBtn.innerText = originalBtnText;
+        loadingOverlay.style.display = 'none';
         submitBtn.disabled = false;
     }
 });
